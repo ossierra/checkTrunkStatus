@@ -4,7 +4,7 @@ $fp = fopen($logFile, 'a');
 $logMessage = "Ejecutando el script\n";
 fwrite($fp, $logMessage);
 // Función para obtener la lista de peers PJSIP
-shell_exec('asterisk -rx "pjsip show endpoints"',$output);
+exec('asterisk -rx "pjsip show endpoints"',$output);
 
 //A continuacion puse un sleep por que en algunos asterisk el comando de arriba demora mucho en obtener resultados
 $logMessage = "Antes de dormir muestro lo que consegui obtener del comando\n".var_dump($output)."\n";
