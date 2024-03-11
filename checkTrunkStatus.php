@@ -2,26 +2,18 @@
 $logFile = "/var/log/checkTrunkStatus.log";
 $fp = fopen($logFile, 'a');
 $logMessage = "Ejecutando el script\n";
+echo "Ejecutando el script\n";
 fwrite($fp, $logMessage);
 // Función para obtener la lista de peers PJSIP
 exec('asterisk -rx "pjsip show endpoints"',$output);
 
-//A continuacion puse un sleep por que en algunos asterisk el comando de arriba demora mucho en obtener resultados
-$logMessage = "Antes de dormir muestro lo que consegui obtener del comando\n".var_dump($output)."\n";
-fwrite($fp, $logMessage);
-$logMessage = "Duermo...\n";
-fwrite($fp, $logMessage);
-//sleep(50);
-$logMessage = "DESPUES de dormir muestro lo que consegui obtener del comando\n".var_dump($output)."\n";
-
-//$lines = explode("\n", $output);
 $hostname = gethostname();
 $timestamp = time();
 $peers = [];
 //Este flag es para saber si miro o no miro el contact
 $flag = 0;
 $logMessage = "Entrando al loop\n";
-echo "ntrando al loop\n";
+echo "Entrando al loop\n";
 fwrite($fp, $logMessage);
 foreach ($output as $line) {
 	if (strpos($line, 'Endpoint:') !== false) {
