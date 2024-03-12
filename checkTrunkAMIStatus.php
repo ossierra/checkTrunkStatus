@@ -35,10 +35,9 @@ while (!feof($socket)) {
 if (strpos($response, 'Response: Success') !== false) {
     // Dividir la respuesta en líneas
     $lines = explode("\r\n", $response);
-    
+    $flag = 0;
     // Procesar cada línea
     foreach ($lines as $line) {
-        $flag = 0;
         //$line = trim($line);
         $cadena = explode(":",$line);
         $campo = @trim($cadena[0]);
@@ -72,8 +71,9 @@ if (strpos($response, 'Response: Success') !== false) {
             echo $campo." | ".$canales." | ".$flag."\n";
         }
         
-        if($flag > 1){
+        if($flag > 2){
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
+            $flag = 0;
         }
     }
 } else {
