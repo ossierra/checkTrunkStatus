@@ -27,7 +27,8 @@ $wrets=fgets($socket);
 
 echo var_dump($wrets)."\n";
 echo "Ejecutando el comando PJSIP\n";
-fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
+fputs($socket, "Action: PJSIPShowEndpoint\r\n" );
+fputs($socket, "Endpoint: kamailio-dev\r\n" );
 echo "Duermo 15 segundos\n";
 sleep(15);
 $wrets=fgets($socket);
