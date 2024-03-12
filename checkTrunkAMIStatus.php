@@ -27,13 +27,14 @@ $wrets=fgets($socket);
 
 echo var_dump($wrets)."\n";
 echo "Ejecutando el comando PJSIP\n";
-fputs($socket, "Action: PJSIPShowEndpoint\r\n" );
-fputs($socket, "Endpoint: kamailio-dev\r\n" );
-echo "Duermo 15 segundos\n";
-sleep(15);
-$wrets=fgets($socket);
-echo "Y el resultado es.... PJSIP\n";
-echo var_dump($wrets)."\n";
+fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
+//fputs($socket, "Endpoint: kamailio-dev\r\n" );
+echo "Obtengo los resultados...\n";
+while (!feof($socket)) {
+    $response .= fgets($socket);
+}
+echo "taran!!!\n";
+echo var_dump($response)."\n";
 exit;
 // Verificar si la respuesta contiene información de los peers
 if (strpos($response, 'Response: Success') !== false) {
