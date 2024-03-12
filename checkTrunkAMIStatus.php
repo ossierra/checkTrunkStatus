@@ -24,7 +24,7 @@ if (!$socket) {
 ami_login($socket, $ami_username, $ami_password);
 
 // Ejecutar comando AMI para obtener información de los peers
-$response = ami_command($socket, 'PJSIPShowEndpoints');
+$response = ami_command($socket, 'Action: PJSIPShowContacts');
 
 // Verificar si la respuesta contiene información de los peers
 if (strpos($response, 'Response: Success') !== false) {
