@@ -24,7 +24,6 @@ if (!$socket) {
 }
 echo "Me conecto al AMI\n";
 $wrets=fgets($socket);
-sleep(1);
 echo var_dump($wrets)."\n";
 echo "Ejecutando el comando PJSIP\n";
 fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
@@ -33,17 +32,15 @@ echo "Obtengo los resultados...\n";
 $response = "";
 while (!feof($socket)) {
     $response .= fgets($socket);
-    echo $response." <- \n";
 }
-echo "taran!!!\n";
-echo var_dump($response)."\n";
-exit;
 // Verificar si la respuesta contiene información de los peers
 if (strpos($response, 'Response: Success') !== false) {
     // Dividir la respuesta en líneas
     $lines = explode("\r\n", $response);
+    
     // Procesar cada línea
     foreach ($lines as $line) {
+        echo $lines." <\n";
         // Extraer información del peer de la línea
         // Aquí debes analizar la estructura de la respuesta de PJSIPShowEndpoints
         // y extraer la información del peer, como su nombre y estado
