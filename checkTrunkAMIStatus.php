@@ -66,9 +66,12 @@ if (strpos($response, 'Response: Success') !== false) {
         
         if($campo == "ActiveChannels"){
             $canales= $value;
+            echo "Canales previos: ".$canales."\n";
             if($canales == ""){
                 $canales = 0;
+                echo "Canales 0: ".$canales."\n";
             }
+            echo "Canales : ".$canales."\n";
             $flag ++;
         }
         
@@ -80,7 +83,7 @@ if (strpos($response, 'Response: Success') !== false) {
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
             $flag = 0;
         }
-        
+        echo "Flag: ".$flag."\n";
     }
 } else {
     echo "Error al ejecutar el comando PJSIPShowEndpoints\n";
