@@ -24,15 +24,16 @@ if (!$socket) {
 }
 echo "Me conecto al AMI\n";
 $wrets=fgets($socket);
-
+sleep(1);
 echo var_dump($wrets)."\n";
 echo "Ejecutando el comando PJSIP\n";
 fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
-//fputs($socket, "Endpoint: kamailio-dev\r\n" );
+fputs($socket, "\r\nAction: Logoff\r\n\r\n" );
 echo "Obtengo los resultados...\n";
-$response = fgets($socket);
+$response = "";
 while (!feof($socket)) {
     $response .= fgets($socket);
+    echo $response." <- \n";
 }
 echo "taran!!!\n";
 echo var_dump($response)."\n";
