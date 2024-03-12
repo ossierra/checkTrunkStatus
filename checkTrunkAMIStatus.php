@@ -64,7 +64,7 @@ if (strpos($response, 'Response: Success') !== false) {
                         $cantidad ++;
                     }else{
                         $flag = 2;
-                        echo "Es un peer, salgo\n";
+                        //echo "Es un peer, salgo\n";
                         continue;
                     }
                 }else if($campo == "Transport"){
@@ -86,11 +86,11 @@ if (strpos($response, 'Response: Success') !== false) {
                     $flag = 0;
                 }
             }else if($flag == 2){
-                echo "Es un peer, salgo\n";
+                //echo "Es un peer, salgo\n";
                 continue;
             } 
         }else{
-            echo "LINEA VACIA\n";
+            //echo "LINEA VACIA\n";
             $flag = 0;
         }
     }
