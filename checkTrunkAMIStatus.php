@@ -51,30 +51,29 @@ if (strpos($response, 'Response: Success') !== false) {
             }
             echo $campo." | ".$value." | ".$flag."\n";
         }
-        if($flag > 0 and $campo == "Contacts"){
-            $contact = $value;
+        if($campo == "Transport"){
+            $Transport = $value;
             $flag ++;
+            echo $campo." | ".$Transport." | ".$flag."\n";
         }
         
-        if($flag > 0 and $campo == "DeviceState"){
+        if($campo == "DeviceState"){
             $status = $value;
             $flag ++;
-            echo $campo." | ".$value." | ".$flag."\n";
+            echo $campo." | ".$status." | ".$flag."\n";
         }
         
-        if($flag > 1 and $campo == "ActiveChannels"){
+        if($campo == "ActiveChannels"){
             if($canales == ""){
                 $canales = 0;
             }else{
                 $canales= $value;
             }
             $flag ++;
-            echo $campo." | ".$value." | ".$flag."\n";
+            echo $campo." | ".$canales." | ".$flag."\n";
         }
         
-        if($flag > 2){
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
-        }
     }
 } else {
     echo "Error al ejecutar el comando PJSIPShowEndpoints\n";
