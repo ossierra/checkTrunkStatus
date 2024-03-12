@@ -36,19 +36,61 @@ while (!feof($socket)) {
 if (strpos($response, 'Response: Success') !== false) {
     // Dividir la respuesta en líneas
     $lines = explode("\r\n", $response);
-    $flag = 0;
     // Procesar cada línea
+    $flag = 0;
+    $cantidad = 0;
     foreach ($lines as $line) {
-        echo $flag."\n";
-        //$line = trim($line);
-        $cadena = explode(":",$line);
-        $campo = @trim($cadena[0]);
-        $value = @trim($cadena[1]);
-        
+
         if($line != ""){
             echo $line."\n";
+            $cadena = explode(":",$line);
+            $campo = @trim($cadena[0]);
+            $value = @trim($cadena[1]);
+            
+            //Flag = 0, es nuevo, Flag = 1, a revisar,Flag = 2 trunk, Flag = 3 peer.
+            if($flag == 0){
+                if($line == "Event: EndpointList"){
+                    $flag = 1;
+                    continue;
+                }else{
+                    $flag = 0;
+                    continue;
+                }
+            }else if($flag == 1){
+                if($campo == "ObjectName"){
+                    if(!is_numeric($value)){
+                        echo "Es un trunk, sigo\n";
+                        $trunk = $value;
+                        $cantidad ++;
+                    }else{
+                        $flag = 2;
+                        echo "Es un peer, salgo\n";
+                        continue;
+                    }
+                }else if($campo == "Transport"){
+                    $Transport = $value;
+                    $cantidad ++;
+                }else if($campo == "DeviceState"){
+                    $status = $value;
+                    $cantidad ++;
+                }else if($campo == "ActiveChannels"){
+                    $canales= $value;
+                    $cantidad ++;
+                }
+                
+                //Si ya recopile las 4 variables del troncal reporto al graylog
+                if($cantidad > 3){
+                    echo "Troncal: ".$trunk." Transport:".$Transport."Status: ".$status."Canales: ".$canales."\n";
+                    $cantidad = 0;
+                    $flag = 0;
+                }
+            }else if($flag == 2){
+                echo "Es un peer, salgo\n";
+                continue;
+            } 
         }else{
             echo "LINEA VACIA\n";
+            $flag = 0;
         }
     }
 } else {
