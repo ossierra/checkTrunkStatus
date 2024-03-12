@@ -42,7 +42,7 @@ if (strpos($response, 'Response: Success') !== false) {
     foreach ($lines as $line) {
 
         if($line != ""){
-            echo $line."\n";
+            //echo $line."\n";
             $cadena = explode(":",$line);
             $campo = @trim($cadena[0]);
             $value = @trim($cadena[1]);
@@ -74,13 +74,14 @@ if (strpos($response, 'Response: Success') !== false) {
                     $status = $value;
                     $cantidad ++;
                 }else if($campo == "ActiveChannels"){
+                    echo $line."\n";
                     $canales= $value;
                     $cantidad ++;
                 }
                 
                 //Si ya recopile las 4 variables del troncal reporto al graylog
                 if($cantidad > 3){
-                    echo "Troncal: ".$trunk." Transport:".$Transport."Status: ".$status."Canales: ".$canales."\n";
+                    echo "Troncal: ".$trunk." Transport:".$Transport." Status: ".$status." Canales: ".$canales."\n";
                     $cantidad = 0;
                     $flag = 0;
                 }
