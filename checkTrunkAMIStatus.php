@@ -73,7 +73,9 @@ if (strpos($response, 'Response: Success') !== false) {
             echo $campo." | ".$canales." | ".$flag."\n";
         }
         
+        if($flag > 2){
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
+        }
     }
 } else {
     echo "Error al ejecutar el comando PJSIPShowEndpoints\n";
