@@ -2,9 +2,8 @@
 $logFile = "/var/log/checkTrunkStatus.log";
 $fp = fopen($logFile, 'a');
 $logMessage = "Ejecutando el script\n";
-echo "Ejecutando el script\n";
 fwrite($fp, $logMessage);
-
+echo "Ejecutando el script\n";
 // Datos de conexión AMI
 $ami_host = '127.0.0.1';
 $ami_port = '5038';
@@ -24,6 +23,8 @@ if (!$socket) {
 }
 echo "Me conecto al AMI\n";
 echo "Ejecutando el comando PJSIP\n";
+$logMessage = "Ejecutando el comando PJSIP\n";
+fwrite($fp, $logMessage);
 fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
 fputs($socket, "\r\nAction: Logoff\r\n\r\n" );
 echo "Obtengo los resultados...\n";
