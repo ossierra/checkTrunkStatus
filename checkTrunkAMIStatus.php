@@ -40,19 +40,41 @@ if (strpos($response, 'Response: Success') !== false) {
     
     // Procesar cada línea
     foreach ($lines as $line) {
-        echo $lines." <\n";
-        // Extraer información del peer de la línea
-        // Aquí debes analizar la estructura de la respuesta de PJSIPShowEndpoints
-        // y extraer la información del peer, como su nombre y estado
-        // Luego, puedes aplicar la lógica de tu script para procesar esta información
+        $flag = 0;
+        $line = trim($line);
+        $cadena = explode(":",$line);
+        $campo = $cadena[0];
+        $value = $cadena[1];
+        
+        if($campo == "ObjectName"){
+            if(!is_numeric($value)){
+                $trunk = $value;
+                $flag ++;
+            }
+        }
+        if($flag > 0 and $campo == "Contacts"){
+            $contact = $value;
+            $flag ++;
+        }
+        
+        if($flag > 0 and $campo == "DeviceState"){
+            $status = $value;
+            $flag ++;
+        }
+        
+        if($flag > 1 and $campo == "ActiveChannels"){
+            $canales= $value;
+            $flag ++;
+        }
+        
+        if($flag > 2){
+            echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
+        }
     }
 } else {
     echo "Error al ejecutar el comando PJSIPShowEndpoints\n";
     $logMessage = "Error al ejecutar el comando PJSIPShowEndpoints\n";
     fwrite($fp, $logMessage);
 }
-
-// Cerrar el socket de conexión AMI
-ami_logout($socket);
 fclose($fp);
 ?>
