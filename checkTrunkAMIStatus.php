@@ -68,8 +68,6 @@ if (strpos($response, 'Response: Success') !== false) {
             $canales= $value;
             if($canales == ""){
                 $canales = 0;
-            }else if(!isset ($canales)){
-                $canales = 0;
             }
             $flag ++;
         }
