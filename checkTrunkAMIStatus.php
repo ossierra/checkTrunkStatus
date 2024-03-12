@@ -22,12 +22,13 @@ if (!$socket) {
     fwrite($fp, $logMessage);
     exit(1);
 }
+echo "Me conecto al AMI\n";
 $wrets=fgets($socket);
 
 echo var_dump($wrets)."\n";
 
 fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
-
+echo "Ejecutando el comando PJSIP\n";
 $wrets=fgets($socket);
 echo var_dump($wrets)."\n";
 exit;
