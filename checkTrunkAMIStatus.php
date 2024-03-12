@@ -26,10 +26,12 @@ echo "Me conecto al AMI\n";
 $wrets=fgets($socket);
 
 echo var_dump($wrets)."\n";
-
-fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
 echo "Ejecutando el comando PJSIP\n";
+fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
+echo "Duermo 15 segundos\n";
+sleep(15);
 $wrets=fgets($socket);
+echo "Y el resultado es.... PJSIP\n";
 echo var_dump($wrets)."\n";
 exit;
 // Verificar si la respuesta contiene información de los peers
