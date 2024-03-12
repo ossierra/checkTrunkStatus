@@ -50,20 +50,17 @@ if (strpos($response, 'Response: Success') !== false) {
                 $flag ++;
             }else{
                 $flag = -1;
-                //break;
+                continue;
             }
-            echo $campo." - ".$value." - ".$flag."\n";
         }
         if($campo == "Transport"){
             $Transport = $value;
             $flag ++;
-            echo $campo." - ".$value." - ".$flag."\n";
         }
         
         if($campo == "DeviceState"){
             $status = $value;
             $flag ++;
-            echo $campo." - ".$value." - ".$flag."\n";
         }
         
         if($campo == "ActiveChannels"){
