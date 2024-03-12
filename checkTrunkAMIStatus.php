@@ -121,16 +121,16 @@ if (strpos($response, 'Response: Success') !== false) {
                         $result = socket_sendto($conexion, $json_data, strlen($json_data), 0, $host, $port);
                         if ($result === false) {
                                 echo "Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL;
-                                        $timestamp = date("Y-m-d H:i:s");
-                                        // Escribir un mensaje de inicio en el archivo de registro
-                                        $logMessage = "$timestamp - Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
-                                        fwrite($fp, $logMessage);
+                                $timestamp = date("Y-m-d H:i:s");
+                                // Escribir un mensaje de inicio en el archivo de registro
+                                $logMessage = "$timestamp - Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
+                                fwrite($fp, $logMessage);
                         } else {
-                                echo "Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL;
-                                        $timestamp = date("Y-m-d H:i:s");
-                                        // Escribir un mensaje de inicio en el archivo de registro
-                                        $logMessage = "$timestamp - Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL."\n";
-                                        fwrite($fp, $logMessage);
+                                echo "Alerta enviada a Graylog para el troncal $trunk via UDP." . PHP_EOL;
+                                $timestamp = date("Y-m-d H:i:s");
+                                // Escribir un mensaje de inicio en el archivo de registro
+                                $logMessage = "$timestamp - Alerta enviada a Graylog para el troncal $trunk via UDP." . PHP_EOL."\n";
+                                fwrite($fp, $logMessage);
                         }
 
                         // Cerrar el socket
