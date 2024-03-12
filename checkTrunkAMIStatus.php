@@ -22,17 +22,14 @@ if (!$socket) {
     fwrite($fp, $logMessage);
     exit(1);
 }
-$wrets=fgets($socket,128);
+$wrets=fgets($socket);
 
 echo var_dump($wrets)."\n";
 
-// Ejecutar comando AMI para obtener información de los peers
-$response = ami_command($socket, 'Action: PJSIPShowContacts');
+fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
 
-fputs($socket, "Action: PJSIPShowContacts\r\n" );
-
-$wrets=fgets($socket,128);
-echo $wrets;
+$wrets=fgets($socket);
+echo var_dump($wrets)."\n";
 exit;
 // Verificar si la respuesta contiene información de los peers
 if (strpos($response, 'Response: Success') !== false) {
