@@ -44,11 +44,12 @@ if (strpos($response, 'Response: Success') !== false) {
         $value = @trim($cadena[1]);
         
         if($campo == "ObjectName"){
+            
             if(!is_numeric($value)){
                 $trunk = $value;
                 $flag ++;
             }else{
-                echo $trunk."\n";
+                $flag = -1;
                 //break;
             }
             echo $campo." - ".$value." - ".$flag."\n";
