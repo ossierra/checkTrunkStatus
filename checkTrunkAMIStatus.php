@@ -64,16 +64,15 @@ if (strpos($response, 'Response: Success') !== false) {
         }
         
         if($campo == "ActiveChannels"){
+            $canales= $value;
             if($canales == ""){
                 $canales = 0;
-            }else{
-                $canales= $value;
             }
             $flag ++;
             echo $campo." | ".$canales." | ".$flag."\n";
         }
         
-        if($flag > 2){
+        if($flag > 1){
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
         }
     }
