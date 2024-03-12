@@ -30,6 +30,7 @@ echo "Ejecutando el comando PJSIP\n";
 fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
 //fputs($socket, "Endpoint: kamailio-dev\r\n" );
 echo "Obtengo los resultados...\n";
+$response = fgets($socket);
 while (!feof($socket)) {
     $response .= fgets($socket);
 }
