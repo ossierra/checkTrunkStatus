@@ -23,8 +23,6 @@ if (!$socket) {
     exit(1);
 }
 echo "Me conecto al AMI\n";
-$wrets=fgets($socket);
-echo var_dump($wrets)."\n";
 echo "Ejecutando el comando PJSIP\n";
 fputs($socket, "Action: PJSIPShowEndpoints\r\n" );
 fputs($socket, "\r\nAction: Logoff\r\n\r\n" );
@@ -41,11 +39,11 @@ if (strpos($response, 'Response: Success') !== false) {
     // Procesar cada línea
     foreach ($lines as $line) {
         $flag = 0;
-        $line = trim($line);
+        //$line = trim($line);
         $cadena = explode(":",$line);
-        $campo = $cadena[0];
-        $value = $cadena[1];
-        
+        $campo = @trim($cadena[0]);
+        $value = @trim($cadena[1]);
+        echo $campo." | ".$value."\n";
         if($campo == "ObjectName"){
             if(!is_numeric($value)){
                 $trunk = $value;
@@ -63,7 +61,11 @@ if (strpos($response, 'Response: Success') !== false) {
         }
         
         if($flag > 1 and $campo == "ActiveChannels"){
-            $canales= $value;
+            if($canales == ""){
+                $canales = 0;
+            }else{
+                $canales= $value;
+            }
             $flag ++;
         }
         
