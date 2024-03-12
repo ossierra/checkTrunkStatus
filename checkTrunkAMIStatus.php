@@ -43,12 +43,13 @@ if (strpos($response, 'Response: Success') !== false) {
         $cadena = explode(":",$line);
         $campo = @trim($cadena[0]);
         $value = @trim($cadena[1]);
-        echo $campo." | ".$value."\n";
+        
         if($campo == "ObjectName"){
             if(!is_numeric($value)){
                 $trunk = $value;
                 $flag ++;
             }
+            echo $campo." | ".$value." | ".$flag."\n";
         }
         if($flag > 0 and $campo == "Contacts"){
             $contact = $value;
@@ -58,6 +59,7 @@ if (strpos($response, 'Response: Success') !== false) {
         if($flag > 0 and $campo == "DeviceState"){
             $status = $value;
             $flag ++;
+            echo $campo." | ".$value." | ".$flag."\n";
         }
         
         if($flag > 1 and $campo == "ActiveChannels"){
@@ -67,6 +69,7 @@ if (strpos($response, 'Response: Success') !== false) {
                 $canales= $value;
             }
             $flag ++;
+            echo $campo." | ".$value." | ".$flag."\n";
         }
         
         if($flag > 2){
