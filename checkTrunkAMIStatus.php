@@ -39,6 +39,7 @@ if (strpos($response, 'Response: Success') !== false) {
     $flag = 0;
     // Procesar cada línea
     foreach ($lines as $line) {
+        echo $flag."\n";
         //$line = trim($line);
         $cadena = explode(":",$line);
         $campo = @trim($cadena[0]);
@@ -51,6 +52,7 @@ if (strpos($response, 'Response: Success') !== false) {
                 $flag ++;
             }else{
                 $flag = -1;
+                echo "No es numerico, salgo\n";
                 continue;
             }
         }
@@ -81,7 +83,6 @@ if (strpos($response, 'Response: Success') !== false) {
             $logMessage = "$timestamp - Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos ." . PHP_EOL."\n";
             fwrite($fp, $logMessage);
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
-            echo $line."\n";
             $flag = 0;
         }
     }
