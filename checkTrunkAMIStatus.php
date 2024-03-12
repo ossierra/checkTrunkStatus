@@ -47,6 +47,9 @@ if (strpos($response, 'Response: Success') !== false) {
             if(!is_numeric($value)){
                 $trunk = $value;
                 $flag ++;
+            }else{
+                echo $trunk."\n";
+                break;
             }
         }
         if($campo == "Transport"){
@@ -71,8 +74,8 @@ if (strpos($response, 'Response: Success') !== false) {
         
         if($flag > 2){
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
-            $flag = 0;
         }
+        $flag = 0;
     }
 } else {
     echo "Error al ejecutar el comando PJSIPShowEndpoints\n";
