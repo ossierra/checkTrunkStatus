@@ -45,45 +45,10 @@ if (strpos($response, 'Response: Success') !== false) {
         $campo = @trim($cadena[0]);
         $value = @trim($cadena[1]);
         
-        if($campo == "ObjectName"){
-            
-            if(!is_numeric($value)){
-                $trunk = $value;
-                $flag ++;
-            }else{
-                $flag = -1;
-                echo "No es numerico, salgo\n";
-                continue;
-            }
-        }
-        if($campo == "Transport"){
-            $Transport = $value;
-            $flag ++;
-        }
-        
-        if($campo == "DeviceState"){
-            $status = $value;
-            $flag ++;
-        }
-        
-        if($campo == "ActiveChannels"){
-            $canales= $value;
-            echo "Canales previos: ".$canales."\n";
-            if($canales == ""){
-                $canales = 0;
-                echo "Canales 0: ".$canales."\n";
-            }
-            echo "Canales : ".$canales."\n";
-            $flag ++;
-        }
-        
-        if($flag > 2){
-            $timestamp = date("Y-m-d H:i:s");
-            // Escribir un mensaje de inicio en el archivo de registro
-            $logMessage = "$timestamp - Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos ." . PHP_EOL."\n";
-            fwrite($fp, $logMessage);
-            echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
-            $flag = 0;
+        if($line != ""){
+            echo $line."\n";
+        }else{
+            echo "LINEA VACIA\n";
         }
     }
 } else {
