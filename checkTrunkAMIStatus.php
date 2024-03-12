@@ -81,9 +81,9 @@ if (strpos($response, 'Response: Success') !== false) {
             $logMessage = "$timestamp - Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos ." . PHP_EOL."\n";
             fwrite($fp, $logMessage);
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
+            echo $line."\n";
             $flag = 0;
         }
-        echo "Flag: ".$flag."\n";
     }
 } else {
     echo "Error al ejecutar el comando PJSIPShowEndpoints\n";
