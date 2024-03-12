@@ -74,6 +74,10 @@ if (strpos($response, 'Response: Success') !== false) {
         }
         
         if($flag > 2){
+            $timestamp = date("Y-m-d H:i:s");
+            // Escribir un mensaje de inicio en el archivo de registro
+            $logMessage = "$timestamp - Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos ." . PHP_EOL."\n";
+            fwrite($fp, $logMessage);
             echo "Troncal: ".$trunk." esta en estado: ".$status." y tiene ".$canales." canales activos \n";
             $flag = 0;
         }
