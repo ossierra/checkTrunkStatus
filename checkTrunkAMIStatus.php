@@ -48,27 +48,25 @@ if (strpos($response, 'Response: Success') !== false) {
                 $trunk = $value;
                 $flag ++;
             }
-            echo $campo." | ".$value." | ".$flag."\n";
         }
         if($campo == "Transport"){
             $Transport = $value;
             $flag ++;
-            echo $campo." | ".$Transport." | ".$flag."\n";
         }
         
         if($campo == "DeviceState"){
             $status = $value;
             $flag ++;
-            echo $campo." | ".$status." | ".$flag."\n";
         }
         
         if($campo == "ActiveChannels"){
             $canales= $value;
             if($canales == ""){
                 $canales = 0;
+            }else if(!isset ($canales)){
+                $canales = 0;
             }
             $flag ++;
-            echo $campo." | ".$canales." | ".$flag."\n";
         }
         
         if($flag > 2){
