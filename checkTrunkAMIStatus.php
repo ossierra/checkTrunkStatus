@@ -9,6 +9,7 @@ $ami_host = '127.0.0.1';
 $ami_port = '5038';
 $ami_username = 'inceptia';
 $ami_password = 'jdK8mYqRMFwbuTXp5t';
+$hostname = gethostname();
 
 // Crear el socket de conexión AMI
 $socket = fsockopen($ami_host,"5038", $ami_port, $errstr, 10);
@@ -59,7 +60,7 @@ if (strpos($response, 'Response: Success') !== false) {
             }else if($flag == 1){
                 if($campo == "ObjectName"){
                     if(!is_numeric($value)){
-                        echo "Es un trunk, sigo\n";
+                        //echo "Es un trunk, sigo\n";
                         $trunk = $value;
                         $cantidad ++;
                     }else{
@@ -67,7 +68,7 @@ if (strpos($response, 'Response: Success') !== false) {
                         //echo "Es un peer, salgo\n";
                         continue;
                     }
-                }else if($campo == "Transport"){
+                }else if($campo == "Contacts"){
                     $Transport = $value;
                     $cantidad ++;
                 }else if($campo == "DeviceState"){
@@ -82,6 +83,61 @@ if (strpos($response, 'Response: Success') !== false) {
                 //Si ya recopile las 4 variables del troncal reporto al graylog
                 if($cantidad > 3){
                     echo "Troncal: ".$trunk." Transport:".$Transport." Status: ".$status." Canales: ".$canales."\n";
+                    if($status == "Unavailable"){
+                        $timestamp = date("Y-m-d H:i:s");
+                        // Escribir un mensaje de inicio en el archivo de registro
+                        $logMessage = "$timestamp - El peer ".$trunk." se encuentra en estado: ".$status."\n";
+                        fwrite($fp, $logMessage);
+                        // Datos para enviar en el JSON
+                        $data = array(
+                                "version"=> "1.1",
+                                "facility" => "asterisk",
+                                "host"=> $hostname,
+                                "short_message"=> "The trunk $trunk is now Unavaliable",
+                                "timestamp"=> $timestamp,
+                                "_trunk" => $trunk,
+                                "_availability" => "false"
+                        );
+                        // Convertir los datos a formato JSON
+                        $json_data = json_encode($data);
+
+                        // Dirección y puerto del servidor Graylog
+                        $host = 'graylog-inceptia.centralus.cloudapp.azure.com';
+                        //$port = 12501;
+                        $port = 12201;
+
+                        // Crear un socket UDP
+                        $conexion = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+                        if ($conexion === false) {
+                                echo "Error al crear el socket: " . socket_strerror(socket_last_error()) . PHP_EOL;
+                                        $timestamp = date("Y-m-d H:i:s");
+                                        // Escribir un mensaje de inicio en el archivo de registro
+                                        $logMessage = "$timestamp - Error al crear el socket: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
+                                        fwrite($fp, $logMessage);
+                                return;
+                        }
+
+                        // Enviar el JSON a través del socket UDP
+                        $result = socket_sendto($conexion, $json_data, strlen($json_data), 0, $host, $port);
+                        if ($result === false) {
+                                echo "Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL;
+                                        $timestamp = date("Y-m-d H:i:s");
+                                        // Escribir un mensaje de inicio en el archivo de registro
+                                        $logMessage = "$timestamp - Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
+                                        fwrite($fp, $logMessage);
+                        } else {
+                                echo "Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL;
+                                        $timestamp = date("Y-m-d H:i:s");
+                                        // Escribir un mensaje de inicio en el archivo de registro
+                                        $logMessage = "$timestamp - Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL."\n";
+                                        fwrite($fp, $logMessage);
+                        }
+
+                        // Cerrar el socket
+                        socket_close($conexion);
+                    }
+                    $logMessage = "Troncal: ".$trunk." Transport:".$Transport." Status: ".$status." Canales: ".$canales."\n";
+                    fwrite($fp, $logMessage);
                     $cantidad = 0;
                     $flag = 0;
                 }
