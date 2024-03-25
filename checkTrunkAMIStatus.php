@@ -143,6 +143,7 @@ if (strpos($response, 'Response: Success') !== false) {
                 }
             }else if($flag == 2){
                 //echo "Es un peer, salgo\n";
+                $cantidad = 0;
                 continue;
             } 
         }else{
