@@ -30,6 +30,8 @@ foreach ($output as $line) {
         $canales = $canales_part[0];
         if (strpos($peer, "<Endpoint") !== false) {
                 continue;
+        }else if($peer == "anonymous"){
+            continue;
         }else if(!is_numeric($peer)){
             if($status == "Unavailable"){
                 $logMessage = "$timestamp : ALARMA!!! El peer: ".$peer." esta en estado: ".$status."\n";
