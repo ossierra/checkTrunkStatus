@@ -64,42 +64,41 @@ foreach ($output as $line) {
                 // Convertir los datos a formato JSON
                 $json_data = json_encode($data);
             }
+            // Dirección y puerto del servidor Graylog
+            $host = 'graylog-inceptia.centralus.cloudapp.azure.com';
+            //$port = 12501;
+            $port = 12201;
+
+            // Crear un socket UDP
+            $conexion = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+            if ($conexion === false) {
+                    echo "Error al crear el socket: " . socket_strerror(socket_last_error()) . PHP_EOL;
+                        $timestamp = date("Y-m-d H:i:s");
+                        // Escribir un mensaje de inicio en el archivo de registro
+                        $logMessage = "$timestamp - Error al crear el socket: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
+                        fwrite($fp, $logMessage);
+                    return;
+            }
+
+            // Enviar el JSON a través del socket UDP
+            $result = socket_sendto($conexion, $json_data, strlen($json_data), 0, $host, $port);
+            if ($result === false) {
+                echo "Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL;
+                $timestamp = date("Y-m-d H:i:s");
+                // Escribir un mensaje de inicio en el archivo de registro
+                $logMessage = "$timestamp - Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
+                fwrite($fp, $logMessage);
+            } else {
+                echo "Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL;
+                $timestamp = date("Y-m-d H:i:s");
+                // Escribir un mensaje de inicio en el archivo de registro
+                $logMessage = "$timestamp - Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL."\n";
+                fwrite($fp, $logMessage);
+            }
+
+            // Cerrar el socket
+            socket_close($conexion);
         }
-
-        // Dirección y puerto del servidor Graylog
-        $host = 'graylog-inceptia.centralus.cloudapp.azure.com';
-        //$port = 12501;
-        $port = 12201;
-
-        // Crear un socket UDP
-        $conexion = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
-        if ($conexion === false) {
-                echo "Error al crear el socket: " . socket_strerror(socket_last_error()) . PHP_EOL;
-                    $timestamp = date("Y-m-d H:i:s");
-                    // Escribir un mensaje de inicio en el archivo de registro
-                    $logMessage = "$timestamp - Error al crear el socket: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
-                    fwrite($fp, $logMessage);
-                return;
-        }
-
-        // Enviar el JSON a través del socket UDP
-        $result = socket_sendto($conexion, $json_data, strlen($json_data), 0, $host, $port);
-        if ($result === false) {
-            echo "Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL;
-            $timestamp = date("Y-m-d H:i:s");
-            // Escribir un mensaje de inicio en el archivo de registro
-            $logMessage = "$timestamp - Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
-            fwrite($fp, $logMessage);
-        } else {
-            echo "Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL;
-            $timestamp = date("Y-m-d H:i:s");
-            // Escribir un mensaje de inicio en el archivo de registro
-            $logMessage = "$timestamp - Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL."\n";
-            fwrite($fp, $logMessage);
-        }
-
-        // Cerrar el socket
-        socket_close($conexion);
     }
 }
 fclose($fp);
