@@ -56,10 +56,12 @@ foreach ($output as $line) {
                     "version"=> "1.1",
                     "facility" => "asterisk",
                     "host"=> $hostname,
-                    "short_message"=> "El troncal: ".$peer." esta en estado: ".$status." y tiene ".$canales." canales activos",
+                    "short_message"=> "El troncal: ".$peer." esta en estado <<".$status.">> y tiene ".$canales." canales activos",
                     "timestamp"=> $timestamp,
                     "_trunk" => $peer,
-                    "_availability" => "true"
+                    "_status" => $status,
+                    "_channels" => $peer,
+                    "_availability" => "$canales"
                 );
                 // Convertir los datos a formato JSON
                 $json_data = json_encode($data);
