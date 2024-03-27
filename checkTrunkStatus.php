@@ -9,7 +9,7 @@ fwrite($fp, $logMessage);
 echo "Ejecutando el comando\n";
 
 // Función para obtener la lista de peers PJSIP
-exec('asterisk -rx "pjsip list endpoints"',$output);
+exec('/usr/sbin/asterisk -rx "pjsip list endpoints"',$output);
 
 $logMessage = "$timestamp : Entrando al loop\n";
 echo "Entrando al loop\n";
