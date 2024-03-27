@@ -74,10 +74,10 @@ foreach ($output as $line) {
             // Crear un socket UDP
             $conexion = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
             if ($conexion === false) {
-                    echo "Error al crear el socket: " . socket_strerror(socket_last_error()) . PHP_EOL;
+                    echo "Error al crear el socket: " . socket_strerror(socket_last_error());
                         $timestamp = date("Y-m-d H:i:s");
                         // Escribir un mensaje de inicio en el archivo de registro
-                        $logMessage = "$timestamp - Error al crear el socket: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
+                        $logMessage = "$timestamp - Error al crear el socket: " . socket_strerror(socket_last_error())."\n";
                         fwrite($fp, $logMessage);
                     return;
             }
@@ -88,13 +88,13 @@ foreach ($output as $line) {
                 echo "Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL;
                 $timestamp = date("Y-m-d H:i:s");
                 // Escribir un mensaje de inicio en el archivo de registro
-                $logMessage = "$timestamp - Error al enviar el mensaje: " . socket_strerror(socket_last_error()) . PHP_EOL."\n";
+                $logMessage = "$timestamp - Error al enviar el mensaje: " . socket_strerror(socket_last_error())."\n";
                 fwrite($fp, $logMessage);
             } else {
-                echo "Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL;
+                echo "Alerta enviada a Graylog para el troncal $peer via UDP.";
                 $timestamp = date("Y-m-d H:i:s");
                 // Escribir un mensaje de inicio en el archivo de registro
-                $logMessage = "$timestamp - Alerta enviada a Graylog para el troncal $peer via UDP." . PHP_EOL."\n";
+                $logMessage = "$timestamp - Alerta enviada a Graylog para el troncal $peer via UDP.\n";
                 fwrite($fp, $logMessage);
             }
 
