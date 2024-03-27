@@ -60,8 +60,8 @@ foreach ($output as $line) {
                     "timestamp"=> $timestamp,
                     "_trunk" => $peer,
                     "_status" => $status,
-                    "_channels" => $peer,
-                    "_availability" => "$canales"
+                    "_channels" => $canales,
+                    "_availability" => "true"
                 );
                 // Convertir los datos a formato JSON
                 $json_data = json_encode($data);
